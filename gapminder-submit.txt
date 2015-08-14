@@ -1,0 +1,85 @@
+# The Gapminder website contains over 500 data sets with information about
+# the world's population. Your task is to download a data set of your choice
+# and create 2-5 plots that make use of the techniques from Lesson 3.
+
+# You might use a simple histogram, a boxplot split over a categorical variable,
+# or a frequency polygon. The choice is yours!
+
+# You can find a link to the Gapminder website in the Instructor Notes.
+
+# Once you've completed your investigation, create a post in the discussions that includes:
+#       1. any questions you answered, your observations, and summary statistics
+#       2. snippets of code that created the plots
+#       3. links to the images of your plots
+
+# You can save images by using the ggsave() command.
+# ggsave() will save the last plot created.
+# For example...
+#                  qplot(x = price, data = diamonds)
+#                  ggsave('priceHistogram.png')
+
+# ggsave currently recognises the extensions eps/ps, tex (pictex),
+# pdf, jpeg, tiff, png, bmp, svg and wmf (windows only).
+
+# Copy and paste all of the code that you used for
+# your investigation, and submit it when you are ready.
+# ====================================================================================
+# Data Set chosen is "Cell Phones Total" at www.gapminder.com/data site
+# http://spreadsheets.google.com/pub?key=0AkBd6lyS3EmpdEhWLWtqNzljbWg4ZXV6M09JQXNGaUE&output=xls
+#
+dfcell <- read.csv('cell_phone_total.csv', header = T, row.names = 1, check.names = F)
+# Remove blank rows and columns
+df2 <- subset(dfcell, rowSums(dfcell, na.rm=T) > 0, colSums(dfcell, na.rm=T) > 0)
+# add another column "country" with row names
+df2['country'] = row.names(df2)
+dim(df2)
+#[1] 206  33
+# So we have have non-zero data from 206 countries spread acros 32 years
+#
+# Using tidyr, create pair of year and the cell phone total count
+library(tidyr)
+df3 <- gather(df2, "year", "CellPhoneTotal", -country)
+head(df3)
+tail(df3)
+#
+summary(df3)
+#   country               year      CellPhoneTotal     
+# Length:6592        Min.   :1980   Min.   :        0  
+# Class :character   1st Qu.:1988   1st Qu.:        0  
+# Mode  :character   Median :1996   Median :    10508  
+#                    Mean   :1996   Mean   :  5605804  
+#                    3rd Qu.:2003   3rd Qu.:   775873  
+#                    Max.   :2011   Max.   :986253000  
+#                                  NA's   :276       
+# Plot total cell phone across all countries by year 
+qplot(data=df3, y=CellPhoneTotal, x=year) + geom_bar(stat="identity") +
+ coord_cartesian(xlim=c(1990,2011))
+ggsave("cellphones_by_year_bar_across_all_countries.jpg")
+#
+# Selecting few countries as otherwise graph is too  cramped with 206 countries!
+qplot(data=subset(df3,country %in% c("Finland", "United States", "South Korea", "India", "China")),
+      y=CellPhoneTotal, x=year, fill=country) + geom_bar(stat="identity") + 
+      coord_cartesian(xlim=c(1990,2011))
+ggsave("cellphones_by_year_bar_country_comparison.jpg")
+#
+# Line Charts for easy comparison
+qplot(data=subset(df3,country %in% c("Finland", "United States", "South Korea", "India", "China")),
+      y=CellPhoneTotal, x=year, color=country) + geom_line(stat="identity") + 
+      coord_cartesian(xlim=c(1990,2011))
+ggsave("cellphones_by_year_country_comparison.jpg")
+#
+qplot(data=subset(df3,country %in% c("Finland", "United States", "South Korea", "India", "China")), 
+      y=CellPhoneTotal, x=year) + geom_line(stat="identity") +
+      coord_cartesian(xlim=c(1990,2011)) + facet_wrap(~country, scales="free_y")
+ggsave("cellphones_by_year_for_each_country.jpg")
+#
+by(df3$CellPhoneTotal, df3$year, summary)
+#
+# Listing only first and last year summary here
+#df3$year: 1980
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+#    0.0     0.0     0.0   119.8     0.0 23480.0      10 
+#----------------------------------------------------------------------- 
+#df3$year: 2011
+#     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's 
+#     2130   1325000   6427000  31220000  18130000 986300000        16 
