@@ -1,0 +1,61 @@
+# Introduction
+
+One of the [Udacity Data Analysis with R Problem Set][1] requires us to investigate the price of diamonds using box plots, numerical summaries, and one of the following categorical variables: cut, clarity, and color. The problem set uses the [dimaond dataset][2] within the R ggplot2 package.
+
+A nice thing about the Udacity problem set is that it comes with some very useful forums where students get to share their findings and approaches on things like how they explore and analyze the data, and how they came up conclusions. Other students (including me) may then be inspired by other's approaches and try attempt-improving these further to gain further **insights**.
+
+As I started exploring and analyzing the `diamonds` dataset in R, I gradually discovered some pretty intersting patterns and some pretty cool techniques. More importantly, I learnt about asking small questions which may help unlocking that **insight**.
+
+The aim of this **Exploratory Data Analysis** is to **understand** the `diamonds` dataset and unlock **insights**. It turns out that **asking good questions** help.
+
+> "Good data science comes from good questions, not from fancy techniques."
+> ... Sean J Taylor, Facebook Data Scientist
+
+# Questions and Drill-downs
+
+- What is the `diamonds` dataset? [Drill-down][3]
+- What is the structure of the `diamonds` dataset? [Drill-down][4]
+- Show me some actual `diamonds` observations? [Drill-down][5]
+- Give me a quick summary of the `diamonds` dataset? [Drill-down][6]
+- Does `summary()` output align with documentation? [Drill-down][7]
+- How to re-order factor levels for `color`? [Drill-down][8]
+- How to re-order factor levels for `clarity`? [Drill-down][9]
+- Sample `price` distribution? [Drill-down][10]
+- Sample `carat` distribution? [Drill-down][11]
+- Sample `cut` distribution? [Drill-down][12]
+- Sample `color` distribution? [Drill-down][13]
+- Sample `clarity` distribution? [Drill-down][14]
+- Sample `x` distribution? [Drill-down][15]
+- Sample `y` distribution? [Drill-down][16]
+- Sample `z` distribution? [Drill-down][17]
+- Sample `depth` distribution? [Drill-down][18]
+- Sample `table` distribution? [Drill-down][19]
+- `price` vs `carat`?
+- `price` vs `cut`?
+- `price` vs `color`?
+- `price` vs `clarity`?
+- `price` vs `x`?
+- `price` vs `y`?
+- `price` vs `z`?
+- `price` vs `depth`?
+- `price` vs `table`?
+
+[1]: https://www.udacity.com/course/viewer#!/c-ud651/l-685569242/e-746818723/m-697369977 "Udacity Data Analysis with R Problem Set 3 - Price Box Plots"
+[2]: http://docs.ggplot2.org/0.9.3.1/diamonds.html "ggplot2.org - diamonds dataset"
+[3]: http://mathalope.co.uk/2015/03/11/what-is-the-diamonds-dataset/ "What is the diamonds Dataset?"
+[4]: http://mathalope.co.uk/2015/03/11/what-is-the-structure-of-the-diamonds-dataset/ "What is the structure of the diamonds dataset?"
+[5]: http://mathalope.co.uk/2015/03/12/show-me-some-actual-observations-of-diamonds-dataset/ "Show me some actual observations?"
+[6]: http://mathalope.co.uk/2015/03/12/show-me-a-quick-summary-of-the-diamonds-dataset/ "Show me a quick summary of the diamonds dataset?"
+[7]: http://mathalope.co.uk/2015/03/12/does-summary-output-align-with-documentation/ "Does summary output align with documentation?"
+[8]: http://mathalope.co.uk/2015/03/12/how-to-reorder-factor-levels-for-color/ "How to reorder factor levels for color?"
+[9]: http://mathalope.co.uk/2015/03/12/how-to-reorder-factor-levels-for-clarity/ "How to reorder factor levels for clarity?"
+[10]: http://mathalope.co.uk/2015/03/13/sample-price-distribution-diamonds-dataset/ "Sample price distribution?"
+[11]: http://mathalope.co.uk/2015/03/13/sample-carat-distribution-of-diamonds-dataset/ "Sample carat distribution?"
+[12]: http://mathalope.co.uk/2015/03/13/sample-cut-distribution-of-diamonds-dataset/ "Sample cut distribution?"
+[13]: http://mathalope.co.uk/2015/03/13/sample-color-distribution-of-diamonds-dataset/ "Sample color distribution?"
+[14]: http://mathalope.co.uk/2015/03/13/sample-clarity-distribution-of-diamonds-dataset/ "Sample clarity distribution?"
+[15]: http://mathalope.co.uk/2015/03/13/sample-x-distribution-of-diamonds-dataset/ "Sample x distribution?"
+[16]: http://mathalope.co.uk/2015/03/14/sample-y-distribution-of-diamonds-dataset/ "Sample y distribution?"
+[17]: http://mathalope.co.uk/2015/03/15/sample-z-distribution-of-diamonds-dataset/ "Sample z distribution?"
+[18]: http://mathalope.co.uk/2015/03/15/sample-depth-distribution-of-diamonds-dataset/ "Sample depth distribution?"
+[19]: http://mathalope.co.uk/2015/03/16/ggplot2-diamonds-dataset-sample-table-distribution/
