@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0054)https://onlinecourses.science.psu.edu/stat857/node/224 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" class="js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing | STAT 897D</title>
+    
+<link rel="prev" href="https://onlinecourses.science.psu.edu/stat857/node/223">
+<link rel="up" href="https://onlinecourses.science.psu.edu/stat857/node/223">
+<link rel="next" href="https://onlinecourses.science.psu.edu/stat857/node/225">
+<link rel="shortcut icon" href="https://onlinecourses.science.psu.edu/stat857/sites/onlinecourses.science.psu.edu.stat857/files/online_ed2_favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/book.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/node.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/defaults.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/system.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/system-menus.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/user.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/content-module.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/hovertip.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/thickbox.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/thickbox_ie.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/extlink.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/fieldgroup.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/printlinks.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/default.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/layout.css">
+<link type="text/css" rel="stylesheet" media="all" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/style.css">
+<link type="text/css" rel="stylesheet" media="screen" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/files_icons.css">
+<link type="text/css" rel="stylesheet" media="screen" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/proto_icons.css">
+<link type="text/css" rel="stylesheet" media="screen" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/tabs.css">
+<link type="text/css" rel="stylesheet" media="print" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/print.css">
+    <!--[if lte IE 6]><link type="text/css" rel="stylesheet" media="all" href="/stat857/sites/all/themes/online_ed2/css/ie6.css" /><![endif]-->
+    <!--[if IE 7]><link type="text/css" rel="stylesheet" media="all" href="/stat857/sites/all/themes/online_ed2/css/ie7.css" /><![endif]-->
+    <!--[if IE 8]><link type="text/css" rel="stylesheet" media="all" href="/stat857/sites/all/themes/online_ed2/css/ie8.css" /><![endif]-->
+    <link rel="stylesheet" href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/tabcontent.css" type="text/css">
+    <script type="text/javascript" async="" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/ga.js"></script><script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/jquery.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/drupal.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/googleanalytics.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/hovertip.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/mathjax.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/thickbox.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/extlink.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/jquery.a_form.packed.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/ajax.js"></script>
+<script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/ajax_wysiwyg.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/stat857/", "googleanalytics": { "trackOutgoing": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip" }, "mathjax": { "path": "cdn" }, "thickbox": { "close": "Close", "next": "Next \x3e", "prev": "\x3c Prev", "esc_key": "or Esc Key", "next_close": "Next / Close on last", "image_count": "Image !current of !total" }, "extlink": { "extTarget": 0, "extClass": "ext", "extSubdomains": 1, "extExclude": "", "extInclude": "", "extAlert": 0, "extAlertText": "This link will take you to an external web site. We are not responsible for their content.", "mailtoClass": "mailto" } });
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+    // initialize tooltips in a separate thread
+    $(document).ready(function() {
+      window.setTimeout(hovertipInit, 1);
+    });
+
+//--><!]]>
+</script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        $('iframe').each(function(){
+          var url = $(this).attr("src");
+          var char = "?";
+          if(url.indexOf("?") != -1){
+            var char = "&";
+          }
+        $(this).attr("src",url+char+"wmode=transparent");
+        });
+    });
+    </script>
+<link href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/video-js.css" rel="stylesheet">
+<script src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/video.js"></script>
+  <script type="text/javascript" src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/mathjax(1).js">MathJax.Hub.Config({extensions: ["tex2jax.js", "TeX/AMSmath.js"],jax: ["input/TeX","output/HTML-CSS"],tex2jax: {inlineMath: [ ['$','$'], ['\\(','\\)'] ],displayMath: [ ['$$','$$'], ['\\[','\\]'] ],processEscapes: true}});MathJax.Hub.Startup.onload();</script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">.MathJax_Preview .MJXc-math {color: inherit!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXc-script {font-size: .8em}
+.MJXc-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXc-bold {font-weight: bold}
+.MJXc-italic {font-style: italic}
+.MJXc-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXc-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXc-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXc-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXc-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXc-largeop {font-size: 150%}
+.MJXc-largeop.MJXc-int {vertical-align: -.2em}
+.MJXc-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXc-display {display: block; text-align: center; margin: 1em 0}
+.MJXc-math span {display: inline-block}
+.MJXc-box {display: block!important; text-align: center}
+.MJXc-box:after {content: " "}
+.MJXc-rule {display: block!important; margin-top: .1em}
+.MJXc-char {display: block!important}
+.MJXc-mo {margin: 0 .15em}
+.MJXc-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXc-denom {display: inline-table!important; width: 100%}
+.MJXc-denom > * {display: table-row!important}
+.MJXc-surd {vertical-align: top}
+.MJXc-surd > * {display: block!important}
+.MJXc-script-box > *  {display: table!important; height: 50%}
+.MJXc-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXc-script-box > *:last-child > * {vertical-align: bottom}
+.MJXc-script-box > * > * > * {display: block!important}
+.MJXc-mphantom {visibility: hidden}
+.MJXc-munderover {display: inline-table!important}
+.MJXc-over {display: inline-block!important; text-align: center}
+.MJXc-over > * {display: block!important}
+.MJXc-munderover > * {display: table-row!important}
+.MJXc-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXc-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXc-mtr {display: table-row!important}
+.MJXc-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXc-mtr > .MJXc-mtd:first-child {padding-left: 0}
+.MJXc-mtr:first-child > .MJXc-mtd {padding-top: 0}
+.MJXc-mlabeledtr {display: table-row!important}
+.MJXc-mlabeledtr > .MJXc-mtd:first-child {padding-left: 0}
+.MJXc-mlabeledtr:first-child > .MJXc-mtd {padding-top: 0}
+.MJXc-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXc-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXc-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXc-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXc-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXc-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXc-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXc-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXc-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXc-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXc-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_CHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+  <body class="not-front not-logged-in page-node node-type-book one-sidebar sidebar-left page-node-224 section-node"><div id="MathJax_Message" style="display: none;"></div>
+    <div id="skip">
+      <a href="https://onlinecourses.science.psu.edu/stat857/node/224#content">Skip to Content</a>
+          </div>
+
+<div id="page" class="stat">
+    <!-- ______________________ HEADER _______________________ -->
+
+<div id="header">
+
+<div id="logo-title">
+
+<div id="logo-logo">
+  <a href="http://science.psu.edu/" title="Eberly College of Science" rel="home" id="logo">Eberly College of Science</a>
+</div>
+
+  <div id="site-name">
+    <a href="https://onlinecourses.science.psu.edu/stat857/" title="Home" rel="home"><span>STAT 897D</span></a>
+  </div>
+
+  <div id="site-slogan"><span>Applied Data Mining and Statistical Learning</span></div>
+
+
+</div> <!-- /logo-title -->
+
+            
+    </div> <!-- /header -->
+
+    <!-- ______________________ MAIN _______________________ -->
+
+    <div id="main" class="clearfix">
+
+      <div id="content">
+        <div id="content-inner" class="inner column center">
+
+          
+                      <div id="content-header">
+
+              <div class="breadcrumb"><a href="https://onlinecourses.science.psu.edu/stat857/">Home</a> » <a href="https://onlinecourses.science.psu.edu/stat857/node/223">Analysis of Wine Quality Data</a></div>
+                              <h1 class="title">WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing</h1>
+              
+              
+              
+              
+              
+            </div> <!-- /#content-header -->
+          
+          <div id="content-area">
+            <div class="node node clearfix node-type-book" id="node-224">
+  <div class="node-inner">
+
+    
+    
+    
+    <div class="content">
+      <span class="print-link"><span class="print_html"><a href="https://onlinecourses.science.psu.edu/stat857/print/book/export/html/224" title="Display a printer-friendly version of this page." class="print-page" onclick="window.open(this.href); return false" rel="nofollow"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/print_icon.gif" alt="Printer-friendly version" title="Printer-friendly version" width="16" height="16" class="print-icon print-icon-margin">Printer-friendly version</a></span></span><p>All variables are summarized and univariate analysis with plots are shown below.</p>
+<p style="text-align: right;"><em><a href="https://onlinecourses.science.psu.edu/stat857/node/224#TB_inline?height=600&width=700&inlineId=myOnPageContent1" title="Sample R Code" class="thickbox initThickbox-processed">Sample R code for <br>EDA</a></em></p>
+<div id="myOnPageContent1" style="display: none; padding-left: 30px;">
+<p>Sample R code for EDA</p>
+<pre>attach(WhiteWine)</pre><pre>par(mfrow=c(2,2), oma = c(1,1,0,0) + 0.1, mar = c(3,3,1,1) + 0.1)</pre><pre>barplot((table(quality)), col=c("slateblue4", "slategray", "slategray1", "slategray2", "slategray3", "skyblue4"))</pre><pre>mtext("Quality", side=1, outer=F, line=2, cex=0.8)</pre><pre>truehist(fixed.acidity, h = 0.5, col="slategray3")</pre><pre>mtext("Fixed Acidity", side=1, outer=F, line=2, cex=0.8)</pre><pre>truehist(volatile.acidity, h = 0.05, col="slategray3")</pre><pre>mtext("Volatile Acidity", side=1, outer=F, line=2, cex=0.8)</pre><pre>truehist(citric.acid, h = 0.1, col="slategray3")</pre><pre>mtext("Citric Acid", side=1, outer=F, line=2, cex=0.8)</pre><pre>par(mfrow=c(1,5), oma = c(1,1,0,0) + 0.1,  mar = c(3,3,1,1) + 0.1)</pre><pre>boxplot(fixed.acidity, col="slategray2", pch=19)</pre><pre>mtext("Fixed Acidity", cex=0.8, side=1, line=2)</pre><pre>boxplot(volatile.acidity, col="slategray2", pch=19)</pre><pre>mtext("Volatile Acidity", cex=0.8, side=1, line=2)</pre><pre>boxplot(citric.acid, col="slategray2", pch=19)</pre><pre>mtext("Citric Acid", cex=0.8, side=1, line=2)</pre><pre>boxplot(residual.sugar, col="slategray2", pch=19)</pre><pre>mtext("Residual Sugar", cex=0.8, side=1, line=2)</pre><pre>boxplot(chlorides, col="slategray2", pch=19)</pre><pre>mtext("Chlorides", cex=0.8, side=1, line=2)</pre></div>
+<p>Histograms to show the distribution of the variable values:</p>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_plot_01.png" alt="wine quality variable summary plot" width="486" height="306" style="border: 1px solid black;"></p>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_plot_02.png" alt="wine quality variable summary plot" width="498" height="306" style="border: 1px solid black;"></p>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_plot_03.png" alt="wine quality variable summary plot" width="495" height="286" style="border: 1px solid black;"></p>
+<p style="text-align: left;">Boxplots for each of the variables as another indicator of spread.</p>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_plot_04.png" alt="wine quality variable summary plot" width="550" height="349" style="border: 1px solid black;"></p>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_plot_05.png" alt="wine quality variable summary plot" width="550" height="339" style="border: 1px solid black;"></p>
+<p>Observations regarding variables: All variables have outliers</p>
+<ul>
+<li>Quality has most values concentrated in the categories 5, 6 and 7. Only a small proportion is in the categories [3, 4] and [8, 9] and none in the categories [1, 2] and 10.</li>
+<li>Fixed acidity, volatile acidity and citric acid have outliers. If those outliers are eliminated distribution of the variables may be taken to be symmetric.</li>
+<li>Residual sugar has a positively skewed distribution; even after eliminating the outliers distribution will remain skewed.</li>
+<li>Some of the variables, e.g . free sulphur dioxide, density, have a few outliers but these are very different from the rest.</li>
+<li>Mostly outliers are on the larger side.</li>
+<li>Alcohol has an irregular shaped distribution but it does not have pronounced outliers.</li>
+</ul>
+<p style="text-align: right;"><em><a href="https://onlinecourses.science.psu.edu/stat857/node/224#TB_inline?height=300&width=700&inlineId=myOnPageContent2" title="Sample R Code" class="thickbox initThickbox-processed">Sample R code for <br>Summary Statistics &amp; Correlations</a></em></p>
+<div id="myOnPageContent2" style="display: none; padding-left: 30px;">
+
+<p>Sample R code for Summary Statistics &amp; Correlations</p><pre>summary(WhiteWine)</pre><pre>library("psych", lib.loc="C:/Users/sbasu/Documents/R/R-3.1.0/library")</pre><pre>describe(WhiteWine)</pre><pre>cor(WhiteWine[,-12])</pre><pre>cor(WhiteWine[,-12], method="spearman")</pre><pre>pairs(WhiteWine[,-12], gap=0, pch=19, cex=0.4, col="darkblue")</pre><pre>title(sub="Scatterplot of Chemical Attributes", cex=0.8)</pre></div>
+<p>These observations are supported by the summary statistics also, as shown in the following table:</p>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_summary_table_01.png" alt="table of summary statistics" width="695" height="253" style="border: 1px solid black;"></p>
+<p>Range is much larger compared to the IQR. Mean is usually greater than the median. These observations indicate that there are outliers in the data set and before any analysis is performed outliers must be taken care of.</p>
+<p>Next we look at the bivariate analysis, including all pairwise scatterplot and correlation coefficients. Since the variables have non-normal distribution, we have considered both person and spearman rank correlations.</p>
+<h4>Table: Pearson’s Correlation</h4>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_summary_table_02.png" alt="Pearson&#39;s correlation table" width="602" height="216" style="border: 1px solid black;"></p>
+<h4>Table: Spearman Rank Correlation</h4>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_summary_table_03.png" alt="Spearman Rank Correlation table" width="610" height="231" style="border: 1px solid black;"></p>
+<p>Pearson’s correlation and rank correlations are very close, hence only the former is considered. High correlations (≥ 40% in absolute value) are identified and marked in red. Pairwise scatterplots are also shown below.</p>
+<h4>Scatterplot of Predictors</h4>
+<p style="text-align: center;"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/wq_summary_plot_01.png" alt="scatterplot of predictors" width="576" height="415"></p>
+<p style="text-align: right;"><em><a href="https://onlinecourses.science.psu.edu/stat857/node/224#TB_inline?height=600&width=700&inlineId=myOnPageContent3" title="Sample R Code" class="thickbox initThickbox-processed">Sample R code for <br>Preparing Data</a></em></p>
+<div id="myOnPageContent3" style="display: none; padding-left: 30px;">
+<p>Sample R code for Preparing Data</p>
+<pre>limout &lt;- rep(0,11)</pre><pre>for (i in 1:11){</pre><pre>t1 &lt;- quantile(WhiteWine[,i], 0.75)</pre><pre>t2 &lt;- IQR(WhiteWine[,i], 0.75)</pre><pre>limout[i] &lt;- t1 + 1.5*t2</pre><pre>}</pre><pre>WhiteWineIndex &lt;- matrix(0, 4898, 11)</pre><pre>for (i in 1:4898)</pre><pre>for (j in 1:11){</pre><pre>if (WhiteWine[i,j] &gt; limout[j]) WhiteWineIndex[i,j] &lt;- 1</pre><pre>}</pre><pre>WWInd &lt;- apply(WhiteWineIndex, 1, sum)</pre><pre>WhiteWineTemp &lt;- cbind(WWInd, WhiteWine)</pre><pre>Indexes &lt;- rep(0, 208)</pre><pre>j &lt;- 1</pre><pre>for (i in 1:4898){</pre><pre>if (WWInd[i] &gt; 0) {Indexes[j]&lt;- i</pre><pre>j &lt;- j + 1}</pre><pre>else j &lt;- j</pre><pre>}</pre><pre>WhiteWineLib &lt;-WhiteWine[-Indexes,]   # Inside of Q3+1.5IQR</pre><pre>indexes = sample(1:nrow(WhiteWineLib), size=0.5*nrow(WhiteWineLib))</pre><pre>WWTrain50 &lt;- WhiteWineLib[indexes,]</pre><pre>WWTest50 &lt;- WhiteWineLib[-indexes,]</pre></div>
+<h3>Data Preparation</h3>
+<p>Possibly the most important step in data preparation is to identify outliers. Since this is a multivariate data, we consider only those points which do not have any predictor variable value to be outside of limits constructed by boxplots. The following rule is applied:</p>
+<ul>
+<li>A predictor value is considered to be an outlier only if it is greater than Q<sub>3</sub> + 1.5IQR</li>
+</ul>
+<p>The rationale behind this rule is that the extreme outliers are all on the higher end of the values and the distributions are all positively skewed. Application of this rule reduces the data size from 4899 to 4074.</p>
+<p>Data is randomly divided into Training data and Test Data of equal sizes (50% each).</p>
+  <div id="book-navigation-223" class="book-navigation">
+    
+        <div class="page-links clear-block">
+              <a href="https://onlinecourses.science.psu.edu/stat857/node/223" class="page-previous" title="Go to previous page">‹ Analysis of Wine Quality Data</a>
+                    <a href="https://onlinecourses.science.psu.edu/stat857/node/223" class="page-up" title="Go to parent page">up</a>
+                    <a href="https://onlinecourses.science.psu.edu/stat857/node/225" class="page-next" title="Go to next page">WQD.2 - Multiple Regression  ›</a>
+          </div>
+    
+  </div>
+    </div>
+
+    
+     
+      <div class="links"> <ul class="links inline"><li class="book_printer first last"><a href="https://onlinecourses.science.psu.edu/stat857/print/book/export/html/224" title="Display a printer-friendly version of this page." class="print-page" onclick="window.open(this.href); return false" rel="nofollow"><img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/print_icon.gif" alt="Printer-friendly version" title="Printer-friendly version" width="16" height="16" class="print-icon print-icon-margin">Printer-friendly version</a></li>
+</ul></div>
+    
+  </div> <!-- /node-inner -->
+</div> <!-- /node-->          </div> <!-- /#content-area -->
+
+          
+          
+          </div>
+        </div> <!-- /content-inner /content -->
+
+        
+                  <div id="sidebar-first" class="column sidebar first">
+            <div id="sidebar-first-inner" class="inner">
+              <h1 id="menu_title">Navigation</h1>
+              <div id="block-user-1" class="block block-user block-left block-id-46 clearfix first odd">
+  <div class="block-inner">
+
+          <h3 class="title block-title">Start Here!</h3>
+    
+    <div class="content">
+      <ul class="menu"><li class="collapsed first welcome_to_stat_897d_-_applied_data_mining_and_statistical_learning"><a href="https://onlinecourses.science.psu.edu/stat857/intro" title="Welcome to the STAT 857!">Welcome to STAT 897D - Applied Data Mining and Statistical Learning</a></li>
+<li class="leaf search_course_materials"><a href="https://onlinecourses.science.psu.edu/stat857/search" title="">Search Course Materials</a></li>
+<li class="collapsed last faculty_login_-psu_access_account-"><a href="https://onlinecourses.science.psu.edu/stat857/login" title="">Faculty login (PSU Access Account)</a></li>
+</ul>    </div>
+
+    
+  </div> <!-- /block-inner -->
+</div> <!-- /block --><div id="block-menu-menu-lessons" class="block block-menu block-left block-id-35 clearfix even">
+  <div class="block-inner">
+
+          <h3 class="title block-title">Lessons</h3>
+    
+    <div class="content">
+      <ul class="menu"><li class="collapsed first lesson_1-a-_introduction_to_data_mining"><a href="https://onlinecourses.science.psu.edu/stat857/node/141" title="Lesson 1: Introduction to Data Mining - Part I">Lesson 1(a): Introduction to Data Mining</a></li>
+<li class="collapsed lesson_1_-b-_exploratory_data_analysis_-eda-"><a href="https://onlinecourses.science.psu.edu/stat857/node/4" title="Lesson 3 : Explanatory Data Analysis (EDA)">Lesson 1 (b): Exploratory Data Analysis (EDA)</a></li>
+<li class="collapsed lesson_2-_statistical_learning_and_model_selection"><a href="https://onlinecourses.science.psu.edu/stat857/node/207" title="Lesson 2 (b): Supervised Learning and Model Selection">Lesson 2: Statistical Learning and Model Selection</a></li>
+<li class="collapsed lesson_3_-_linear_regression"><a href="https://onlinecourses.science.psu.edu/stat857/node/12" title="Lesson 3: Linear Methods for Regression">Lesson 3 : Linear Regression</a></li>
+<li class="collapsed lesson_4-_variable_selection"><a href="https://onlinecourses.science.psu.edu/stat857/node/212" title="Lesson 4: Variable Selection">Lesson 4: Variable Selection</a></li>
+<li class="collapsed lesson_5-_regression_shrinkage_methods"><a href="https://onlinecourses.science.psu.edu/stat857/node/137" title="Linear Regularization">Lesson 5: Regression Shrinkage Methods</a></li>
+<li class="collapsed lesson_6-_principal_components_analysis"><a href="https://onlinecourses.science.psu.edu/stat857/node/11" title="Lesson 5 : Principal Component Analysis (PCA)">Lesson 6: Principal Components Analysis</a></li>
+<li class="collapsed lesson_7-_dimension_reduction_methods"><a href="https://onlinecourses.science.psu.edu/stat857/node/208" title="Lesson 6: Dimension Reduction Methods">Lesson 7: Dimension Reduction Methods</a></li>
+<li class="leaf lesson_8-_modeling_non-linear_relationships"><a href="https://onlinecourses.science.psu.edu/stat857/node/210" title="Lesson 7: Non-linear Methods">Lesson 8: Modeling Non-linear Relationships</a></li>
+<li class="collapsed lesson_9-_classification"><a href="https://onlinecourses.science.psu.edu/stat857/node/15" title="Lesson 7 : Linear Methods for Classification (Regression of Indicator Matrix)">Lesson 9: Classification</a></li>
+<li class="collapsed lesson_10-_tree-based_methods"><a href="https://onlinecourses.science.psu.edu/stat857/node/22" title="Lesson 12: Decision Tree">Lesson 10: Tree-based Methods</a></li>
+<li class="leaf lesson_11-_support_vector_machines"><a href="https://onlinecourses.science.psu.edu/stat857/node/211" title="Lesson 10: Support Vector Machines">Lesson 11: Support Vector Machines</a></li>
+<li class="collapsed last lesson_12-_cluster_analysis"><a href="https://onlinecourses.science.psu.edu/stat857/node/25" title="Lesson 6 : Clustering Methods">Lesson 12: Cluster Analysis</a></li>
+</ul>    </div>
+
+    
+  </div> <!-- /block-inner -->
+</div> <!-- /block --><div id="block-menu-menu-resources" class="block block-menu block-left block-id-36 clearfix last odd">
+  <div class="block-inner">
+
+          <h3 class="title block-title">Resources</h3>
+    
+    <div class="content">
+      <ul class="menu"><li class="collapsed first analysis_of_german_credit_data"><a href="https://onlinecourses.science.psu.edu/stat857/node/215" title="Analysis of German Credit Data">Analysis of German Credit Data</a></li>
+<li class="expanded active-trail analysis_of_wine_quality_data"><a href="https://onlinecourses.science.psu.edu/stat857/node/223" title="Analysis of Wine Quality Data">Analysis of Wine Quality Data</a><ul class="menu"><li class="leaf first active-trail wqd-1_-_exploratory_data_analysis_-eda-_and_data_pre-processing"><a href="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D.html" title="WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing" class="active">WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing</a></li>
+<li class="leaf wqd-2_-_multiple_regression"><a href="https://onlinecourses.science.psu.edu/stat857/node/225" title="WQD.2 - Multiple Regression">WQD.2 - Multiple Regression</a></li>
+<li class="leaf wqd-3_-_application_of_polynomial_regression"><a href="https://onlinecourses.science.psu.edu/stat857/node/226" title="WQD.3 - Application of Polynomial Regression">WQD.3 - Application of Polynomial Regression</a></li>
+<li class="leaf wqd-4_-_applying_tree-based_methods"><a href="https://onlinecourses.science.psu.edu/stat857/node/227" title="WQD.4 - Applying Tree-Based Methods">WQD.4 - Applying Tree-Based Methods</a></li>
+<li class="leaf wqd-5_-_random_forest"><a href="https://onlinecourses.science.psu.edu/stat857/node/228" title="WQD.5 - Random Forest">WQD.5 - Random Forest</a></li>
+<li class="leaf wqd-6_-_classification"><a href="https://onlinecourses.science.psu.edu/stat857/node/229" title="WQD.6 - Classification">WQD.6 - Classification</a></li>
+<li class="leaf last wqd-7_conclusion"><a href="https://onlinecourses.science.psu.edu/stat857/node/230" title="WQD.7 - Conclusion">WQD.7 Conclusion</a></li>
+</ul></li>
+<li class="collapsed analysis_of_classification_data"><a href="https://onlinecourses.science.psu.edu/stat857/node/231" title="Analysis of Classification Data">Analysis of Classification Data</a></li>
+<li class="leaf last final_project_-_sample_work"><a href="https://onlinecourses.science.psu.edu/stat857/node/206" title="Final Project - Sample Work">Final Project - Sample Work</a></li>
+</ul>    </div>
+
+    
+  </div> <!-- /block-inner -->
+</div> <!-- /block -->              <div id="sciencemark">
+                <a href="http://science.psu.edu/" title="Penn State Science">
+                  <img src="./WQD.1 - Exploratory Data Analysis (EDA) and Data Pre-processing _ STAT 897D_files/pennstatescience250.png" alt="Penn State Science">
+                </a>
+              </div>
+            </div>
+          </div>
+         <!-- /sidebar-left -->
+
+         <!-- /sidebar-second -->
+
+      </div> <!-- /main -->
+
+      <!-- ______________________ FOOTER _______________________ -->
+
+        <div id="footer">
+
+          <p>Copyright © 2015 <a href="http://www.psu.edu/" class="ext">The Pennsylvania State University</a><span class="ext"></span><br>
+          <a href="http://www.psu.edu/ur/legal.html" class="ext">Privacy and Legal Statements</a><span class="ext"></span><br>
+          Contact the <a href="mailto:gfj100@psu.edu" class="mailto">Department of Statistics Online Programs</a><span class="mailto"></span>
+          </p>
+
+                            </div> <!-- /footer -->
+
+    </div> <!-- /page -->
+    <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-47096006-1"]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+  
+
+</body></html>
