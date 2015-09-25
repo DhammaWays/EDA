@@ -11,17 +11,15 @@ output:
 
 ```{r, echo=FALSE}
 library(ggplot2)
-theme_set(theme_linedraw())
 library(psych)
 ```
 ## About the dataset  
 
-Dataset chosen is "White Wine Quality" tidy data set downloaded from Udacity site. This publicly availale data set was created by Paulo Cortez, etc in 2009 for white variants of the Portuguese "Vinho Verde" wine. Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g. there is no data about grape types, wine brand, wine selling price, etc.).
+Dataset chosen is "White Wine Quality" tidy data set downloaded from [Udacity site](https://s3.amazonaws.com/udacity-hosted-downloads/ud651/wineQualityWhites.csv). This publicly availale data set was created by Paulo Cortez, etc in 2009 for white variants of the Portuguese "Vinho Verde" wine. Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g. there is no data about grape types, wine brand, wine selling price, etc.).
 
 This tidy data set contains 4,898 white wines with 11 variables on quantifying the chemical properties of each wine. At least 3 wine experts rated the quality of each wine, providing a rating between 0 (very bad) and 10 (very excellent).
 
-More information about this data set is available at:
-https://s3.amazonaws.com/udacity-hosted-downloads/ud651/wineQualityInfo.txt
+More information about this data set is available at [Udacity site](https://s3.amazonaws.com/udacity-hosted-downloads/ud651/wineQualityInfo.txt)
 
 
 ### Variable description  
@@ -45,7 +43,7 @@ Description of attributes:
 
 By performing this analysis, we seek to answer the following questions:  
 
-1. Which chemical properties influence the quality of white wines?
+1. *Which chemical properties influence the quality of white wines?*
 
 ## Data exploration  
 
@@ -58,8 +56,7 @@ wine <- read.csv("./wineQualityWhites.csv")
 
 ### Wine quality    
 
-Let us start with getting basic descriptive statistics about the dataset. We will pay extra attention to **quality** as we are trying to answer question on how can we detrmine wine quality.
-
+Let us start with getting basic descriptive statistics about the dataset. We will pay extra attention to **quality** as we are trying to answer question on how can we determine wine quality.
 
 
 ```{r}
@@ -69,59 +66,39 @@ lowerCor(wine)
 pairs.panels(wine)
 ```
 
-The `summary` command gives us already quite a lot of information. We can see
-that, although the range of posible scores is from 0 to 10, in our dataset the 
-minimum score is `r reds_quality_min` and the maximum is `r reds_quality_max`. 
-The mean is `r reds_quality_mean` and the median is `r reds_quality_median`, 
-very close to each other. 
+Both `summary` and `describe` commands give us interesting insights about our attributes. Clearly attribute **X** is just a serial id for each observation. All other attributes except **quality** have a continous value with their mean and median being close, therefore the values are distributed evenly across the total range. **Quality* has discrete values ranging from 3 to 9. 
 
-What about the mode?  
+Looking further in pairwise correlation via `lowerCor`, we can see that **quality** has strong correlation qith **alcohol** (0.44), **density**(-0.31), **chlorides** (-0.21), **volatile.acidity** (-0.19), **toal.sulfur.dioxide** (-0.17) and bit weaker correlation with **fixed.acidity** (-0.11), **residual.sugar** (-0.10), **pH** (0.10).
 
-```{r}
-reds_quality_mode <- names(which.max(table(reds$quality)))
-```
+Our paiwise plot via `pairs.panel` gives us birdeye visual view into how each variable is ditributed along with how they relate to each other. We can see that almost all attributes other than **residual.sugar** and **alcohol** seem to have normal distribution. Both **residual.sugar** and **alcohol** are left skewed and can be converted to normal distribution with some transformations. 
 
-So the most given quality score is `r reds_quality_mode`.  
+We can see that there are some strong correlation among other attributes such as 0.84 between **density** and **residual.sugar**, which canbe seen in pairwise graph as well in terms almost 45 degree line between these two attributes. Since her ewe are focussing on **quality** relation with other attributes, we are **not** going to explore these relationships by themselves other than in context of attributes that relate to **quality**.
 
-But how disperse is the distribution of quality scores? The IQR goes from 
-`r reds_quality_q1` for the lower qartile, to `r reds_quality_q3` for the 
-upper one, around the median of `r reds_quality_median` or second quartile. 
-We could then consider any quality value of less than 
-`r reds_quality_q1 - 1.5*reds_quality_iqr` or more than 
-`r reds_quality_q3 + 1.5*reds_quality_iqr` an outlier. Do we have any of them?  
+When we look further in pairwise graph and correaltion matrix, we can see that several of the strongly correlated attributes to **quality** have good correlation among themselves. Since we want to identify indepdent variables which impact the quality, it will be good to prune these out and select one with strongest correlation with **quality**. We see that **density** (-0.78), **total.sulphur.dioxide** (-0.45), **chlorides** (-0.36) and **residual.sugar** (-0.45) all have good correlation with our strongly correlated attributed **alcohol**. Simliarly **pH** and **fixed.acidity** also have strong correlation (-0.43), which make sense as pH is measure of acidity on a logarithmic sale. *Therefore it may suffice to just focus on **alcohol**, **volatile.acidity** and **pH** when modeling a relationship between quaity and chemical attributes of given white wine. We will dive deep into this hypothesis visually and numerically as we progress in this data exploration further.*
+
+Let us first looking into distribution of quality deeper.
 
 ```{r}
-reds_outliers <- sum(reds$quality < reds_quality_q1 - 1.5*reds_quality_iqr)
-reds_outliers <- reds_outliers + sum(reds$quality > reds_quality_q3 + 1.5*reds_quality_iqr)
+summary(wine$quality)
+IQR(wine$quality)
+table(wine$quality)
 ```
 
-That is, we have `r reds_outliers` outliers.  
+So **quality** discrete values range between 3 and 9 with no scores below 3 or above 9. Since both max and min are more than 1.5*IQR away from their respective quartile, it seems we do have outliers here. From `table` we can see we have around 4% (200/4898) outliers which is significant. 
 
-What about the dispersion around the mean?  
+Let us plot all this to visualize this better. 
 
 ```{r}
-reds_quality_sd <- sd(reds$quality)
+ggplot(data=wine, aes(x=quality)) + geom_bar(binwidth=1, color='black', fill='green') +
+  geom_vline(xintercept = mean(wine$quality), linetype= 'longdash', color='red', alpha=.5)+               
+  geom_vline(xintercept = median(wine$quality), linetype='longdash', color='blue', alpha=.5) + 
+  geom_vline(xintercept = quantile(wine$quality, 0.25) - 1.5 * IQR(wine$quality),
+             linetype='dashed', alpha=.5) +
+  geom_vline(xintercept = quantile(wine$quality, 0.75) + 1.5 * IQR(wine$quality), 
+             linetype='dashed', alpha=.5)
 ```
 
-With a standard deviation of `r reds_quality_sd`, our distribution of quality scores is
-not very disperse.
-
-But, let's visualise all this information to reinforce our answer on question 1.  
-
-```{r}
-ggplot(data=reds, aes(x=quality)) +
-    geom_bar(binwidth=1, color='black', fill='white') +
-    coord_cartesian(xlim=c(0,10)) +
-    geom_vline(xintercept = reds_quality_median, linetype='longdash', alpha=.5) +
-    geom_vline(xintercept = reds_quality_q1 - 1.5*reds_quality_iqr, linetype='longdash', alpha=.5) +
-    geom_vline(xintercept = reds_quality_q3 + 1.5*reds_quality_iqr, linetype='longdash', alpha=.5) +
-    geom_vline(xintercept = reds_quality_mean, linetype=1, color='blue', alpha=.5) +
-    xlab("Wine Quality") +
-    ylab("Number of Samples")
-```
-
-So if we consider the average quality score to be 5 in a 0 to 10 scale, we can 
-see that our quality scores are beyond average under multiple criteria.  
+We can see that majority of wines have quality scores ranging from 5 to 7. Therefore there are lot more average quality wines and few poor or excellent quality wines. 
 
 ### Influential variables  
 
