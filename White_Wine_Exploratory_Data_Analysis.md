@@ -45,34 +45,6 @@ In this data exploration we wish to answer following question:
 # Load Relevant Libraries
 
 
-```
-## 
-## Attaching package: 'ggplot2'
-## 
-## The following object is masked _by_ '.GlobalEnv':
-## 
-##     diamonds
-## 
-## 
-## Attaching package: 'psych'
-## 
-## The following object is masked from 'package:ggplot2':
-## 
-##     %+%
-## 
-## Loading required package: lattice
-## Loading required package: MASS
-## 
-## Attaching package: 'memisc'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     contr.sum, contr.treatment, contrasts
-## 
-## The following object is masked from 'package:base':
-## 
-##     as.array
-```
 
 # Load the Data 
 
@@ -156,15 +128,15 @@ Both `summary` and `describe` commands give us interesting insights about our at
 
 Let us create boxplot for our attributes (leaving **X** out as it is a serial id) to see visually how they are distributed.
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-4-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/Univariate_Plots-1.png) 
 
 Boxplot is confirming what we observed in `summary` that mean and median are close for our attributes here. We can see that other than **alcohol** most other attributes have outliers. We also see that most of the **quality** values lie between 4 to 7.
 
-Let us continue our exploartion of seeing how our attributes are distributed by looking at their histograms. 
+Let us continue our exploration of seeing how our attributes are distributed by looking at their histograms. 
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-5-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-2-1.png) 
 
-We can see from histograms that almost all attributes other than **residual.sugar** and **alcohol** seem to have normal distribution. Both **residual.sugar** and **alcohol** are left skewed (long tail on right) and can be converted to normal distribution with some transformations. There is further confirmation of our earlier obseravtion that values are distributed evenly across the total range and **quality** has discrete integer values.
+We can see from histograms that almost all attributes other than **residual.sugar** and **alcohol** seem to have normal distribution. Both **residual.sugar** and **alcohol** are left skewed (long tail on right) and can be converted to normal distribution with some transformations. There is further confirmation of our earlier observation that values are distributed evenly across the total range and **quality** has discrete integer values.
 
 ## Wine quality    
 
@@ -195,7 +167,7 @@ So **quality** discrete values range between 3 and 9 with no scores below 3 or a
 
 Let us plot quality histogram to visualize this better. 
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-9-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-6-1.png) 
 
 *We can see that majority of wines have quality scores ranging from 5 to 7. Therefore there are lot more average quality wines and few poor or excellent quality wines.* 
 
@@ -222,7 +194,7 @@ So **alcohol** numeric values range between 8 and 14.5 with mean at 10.4.
 
 Let us plot alcohol histogram to visualize this better. 
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-12-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-9-1.png) 
 
 As we saw in earlier boxplot we do **not** have outliers in alcohol, which is confirmed by seeing that both max and min are within the 1.5*IQR range from their respective quartile. We have almost normal distribution exceptional peak at 9. As median and mean are quite close, we have reasonably even distribution around mean.
 
@@ -247,7 +219,7 @@ So **citric.acid** numeric values range between 0.0 and 1.66 with mean at 0.33.
 
 Let us plot citric.acid histogram to visualize this better. 
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-15-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-12-1.png) 
 
 As we saw in earlier boxplot we do have few outliers in citric.acid, which is confirmed by seeing that both min and max are more than 1.5*IQR range away from their respective quartile. We have decent normal distribution. As median and mean are quite close, we have reasonably even distribution around mean.
 
@@ -273,7 +245,7 @@ So **volatile.acidity** numeric values range between 0.08 and 1.1 with mean at 0
 
 Let us plot volatile.acidity histogram to visualize this better. 
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-18-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-15-1.png) 
 
 As we saw in earlier boxplot we do have few outliers in volatile.acidity, which is confirmed by seeing that max is than 1.5*IQR range away from 3rd quartile. We have decent normal distribution with slight tail on right. As median and mean are quite close, we have reasonably even distribution around mean.
 
@@ -298,7 +270,7 @@ So **pH** numeric values range between 2.72 and 3.82 with mean at 3.188.
 
 Let us plot alcohol histogram to visualize this better. 
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-21-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-18-1.png) 
 
 As we saw in earlier boxplot we do have few outliers in pH, which is confirmed by seeing that both max and min are more than 1.5*IQR range away from their respective quartile. We have good normal distribution. As median and mean are quite close, we have reasonably even distribution around mean.
 
@@ -331,7 +303,7 @@ Let us start zooming into potential variables that may influence quality of whit
 Before we zoom into the set of attributes which impact the **quality** most, let us create pairwise plot for each of the attributes to see in one glance how do not only each of these attributes are distributed but get top level of idea of how they may be related to each other.  
 
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-22-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/Bivariate_Plots-1.png) 
 
 Our pairwise plot via `pairs.panel` gives us visual birds eyeview into how each variable is distributed along with how they relate to each other. We can see that there are some strong correlation among other attributes such as **0.84** between **density** and **residual.sugar**, which can be seen in pairwise graph as well in terms of almost 45 degree line between these two attributes. Since here we are focusing on **quality** relation with other attributes, we are **not** going to explore these relationships by themselves other than in context of attributes that relate to **quality**.
 
@@ -354,7 +326,7 @@ Let us look deeper into these correlations.
 ## quality              -0.11 -0.19 -0.01 -0.10 -0.21  0.01 -0.17 -0.31  0.10  0.05  0.44  1.00
 ```
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-23-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-19-1.png) 
 
 Our correlation plot provides a nice visual view with darker shaded color indicating stronger correlation. With this visual cue and looking in pairwise correlation matrix, we can see that **quality** has strong correlation with **alcohol** (0.44), **density**(-0.31), **chlorides** (-0.21), **volatile.acidity** (-0.19), **toal.sulfur.dioxide** (-0.17) and bit weaker correlation with **fixed.acidity** (-0.11), **residual.sugar** (-0.10), **pH** (0.10).
 
@@ -383,14 +355,14 @@ Let us answer first question of average alcohol content for each quality level.
 ```
 
 **Visual boxplot of alcohol for each quality level**
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-25-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-21-1.png) 
 
 We can see that **alcohol** content does seems to increase as **quality** level increases for higher quality wines with score of 6 and above.
 
 Let us visualize this deeper with a scatter plot.
 
 **Scatter plot of alcohol versus quality**
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-26-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-22-1.png) 
 
 We can see a good linear regression line with balanced increasing slope indicating **strong linear correlation** between **alcohol** and **quality**. Higher quality wine tend to have higher mean alcohol content threshold above 11.
 
@@ -413,18 +385,18 @@ Let us answer first question of average volatile.acidity content for each qualit
 ```
 
 **Visual boxplot of volatile.acidity for each quality level**
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-28-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-24-1.png) 
 
 We can see that **voaltile.acidity** content seems to decrease as **quality** level increases except for very low or very high quality wines. Therefore volatile.acidity has negative influence on quality of wine.
 
 Let us visualize this deeper with a scatter plot.
 
 **Scatter plot of volatile.acidity versus quality**
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-29-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-25-1.png) 
 
 We can see a decent linear regression line with decent decreasing slope indicating **good linear correlation** between **volatile.acidity** and **quality**. Therefore volatile.acidity has negative influence on quality of wines. Higher quality wine tend to have lower mean volatile.acidity content threshold below 0.3. 
 
-This finding that low amount of volatile acidity is good for wine is not surprising as it ha connection with aroma of wine. Volatile acidity is an unstable acid formed by dissolving carbon dioxide in water. Generally seen as a fault in wine since it is quite disagreeable when excessive, although a tiny amount can enhance aromas in wine. Therefore good wine is likely to contain a small amount of acetic acid where as low quality wine may contain larger amount.
+This finding that low amount of volatile acidity is good for wine is not surprising as it has connection with aroma of wine. Volatile acidity is an unstable acid formed by dissolving carbon dioxide in water. Generally seen as a fault in wine since it is quite disagreeable when excessive, although a tiny amount can enhance aromas in wine. Therefore good wine is likely to contain a small amount of acetic acid where as low quality wine may contain larger amount.
 
 ### pH  
 
@@ -446,7 +418,7 @@ Let us answer first question of average pH content for each quality level.
 ```
 
 **Visual boxplot of pH for each quality level**
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-31-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-27-1.png) 
 
 
 We can see that **pH** content seems to increase as **quality** level increases except for very low quality wines.
@@ -454,7 +426,7 @@ We can see that **pH** content seems to increase as **quality** level increases 
 Let us visualize this deeper with a scatter plot.
 
 **Scatter plot of pH versus quality**
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-32-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-28-1.png) 
 
 We can see a average linear regression line with small increasing slope indicating **average linear correlation** between **pH** and **quality**. Higher quality wine tend to have higher mean pH content threshold above 3.2.
 
@@ -464,7 +436,7 @@ We can see a average linear regression line with small increasing slope indicati
 
 Since we have stronger correlation of **quality** with **alcohol** and **volatile.acidity**, let us see visually how they impact together.
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-33-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-29-1.png) 
 
 We can see that **alcohol** impacts **quality** in positive way stronger and stronger as **voaltile.acidity** levels increase.
 
@@ -507,17 +479,23 @@ As we can see majority of wines are in **average** category.
 
 Let us visualize the relationship between our chosen attributes and quality as sliced by wine quality classification.
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-35-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-30-1.png) 
 
 We can see that majority of good wines are in lower right quadrant of the graph, where alcohol content is higher and volatile.acidity is lower. We can further observe that a large cluster of good wine in lower right has alcohol content greater than 11 and volatile.acidity less than 0.45.
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-36-1.png) 
+Another way to visualize this is using a scatter 3d plot.
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-31-1.png) 
+
+We see that most of good wines (seen as black dots) are clustered in right lower back of 3d cube indicating that good wines tend to have higher alcohol and moderate to low volatile acid.
+
+Continuing our visual exploration of pH, alcohol influence on quality.
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-32-1.png) 
 
 We can see that majority of good wines are in right half of the graph, where alcohol content is higher and volatile.acidity is in middle range. We can further observe that a large cluster of good wine in right half has alcohol content greater than 11 and pH between 2.9 to 3.4.
 
-Now let us try to bring all these together in a single visualization.
+**Now let us try to bring all these together in a single visualization**
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-37-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-33-1.png) 
 
 We can see that majority of good wines are in lower right quadrant of the graph, where alcohol content is higher, volatile.acidity is lower and pH is in middle range (middle size symbols). We can further observe that a large cluster of good wine in lower right has alcohol content greater than 10.75, volatile.acidity less than 0.5 and pH between 3 to 3.5.
 
@@ -601,14 +579,14 @@ We also see that we have good degree of confidence in most of above coefficients
 
 Let us look at our model visually.
 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-40-1.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-36-1.png) 
 
 We can see that first plot (residual v/s fitted) does indicate close to zero line on average with residuals spread out on both sides of this trend line. Similarly we see in second Q-Q graph that good normal distribution of residuals as most of them do line except bit on lower and higher side (outliers?). We also see small cook's distance other than few outliers. Therefore we can say we our linear model is a decent fit.
 
 Let us visually see how each of attributes impacts the output (quality) in our model.
 
 ** Influence on predicted output quality (repersented as partial on y-axis)** 
-![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-41-1.png) ![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-41-2.png) ![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-41-3.png) 
+![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-37-1.png) ![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-37-2.png) ![](White_Wine_Exploratory_Data_Analysis_files/figure-html/unnamed-chunk-37-3.png) 
 
 We can see that while **alcohol** positively impacts **quality** but **volatile.acidity** negatively impacts **quality**. The **pH** has very small positive impact on **quality**. These results are not surprising and are very much in line with our correlation analysis earlier.
 
@@ -671,11 +649,13 @@ We can summarize following from above plot:
 
 Determination of wine quality is quite a complex inter-play of culture, society, reputation of a region or vineyard along with its chemical components which give wine its distinctive taste and aroma. The whole chemical composition of a wine embodies the various stages of the wine producing process, including the grape variety, yeast strain, the containers used for fermentation and storage, and the ecological practice. Human sense of taste  and aroma is not so well understood. This means wine classification is typically left to wine experts.
 
-While rating of a wine (quality) by experts is ultimately a subjective matter, but one could analyze the different chemical components and their inter-play in wine to come up with best guess on wine rating.  We were able to identify few patterns which can help int his regard. While we have been able to find a way to relate quality of white wines with alcohol and volatile acid content, there are certain outliers which indicate that there must be other factors in the play which determine white wine quality. These factors such as smell, taste, soil and climate conditions where grapes were grown, etc, which are not captured in this data-set, may influence the white wine quality.
+While rating of a wine (quality) by experts is ultimately a subjective matter, but it was an interesting exercise to analyze the different chemical components and their inter-play in wine to come up with best guess on wine rating.  We were able to identify few patterns which can help int his regard. While we have been able to find a way to relate quality of white wines with alcohol and volatile acid content, there are certain outliers which indicate that there must be other factors in the play which determine white wine quality. These factors such as smell, taste, soil and climate conditions where grapes were grown, etc, which are not captured in this data-set, may influence the white wine quality.
 
-It will be interesting to see if our observations and model holds good for other kind of white wines outside the region of this data-set came from. There may also be other ways to build a predictive model other than our linear regression model such as polynomial regression, machine learning or SVM, etc.
+Was happy to see that initial guess of alcohol, pH and various acids influencing the quality of wine was not too far off the mark. Interesting to see that while pH, which is a measure of acidity, did not influence quality as much as volatile acid did, may be because beyond certain quantity acetic acid spoiled the taste and aroma of white wine. This kind of relationship is difficult to capture in a linear model. Our linear model with R^2 of 0.24 was a good start but far from a strong model. Several outliers are playing spoilsport in prediction with this model. While with our linear model it is harder to predict exact quality of white wine with high accuracy, we had better success in finding a pattern to classify wine in broader terms such as good, average and poor. Our visual cluster analysis gave strong clues to a good wine having higher alcohol content and moderate to low volatile acid.
 
-This kind of model can also be used to do quick fraud detection, crude wine classification and possibly enhance the training of students trying to become wine experts!
+This model is not the strongest and can be improved further. Would have liked to see much higher R^2. A better pruning of outliers can help in making our model better. Would like to explore other models such as polynomial regression (e.g. cubic equation) along with combination of other features not considered.  A larger data-set along with some other attributes which relate better with taste and body of white wine may help further to build a better predictive model. Would love to explore more ways to build a predictive model other than our linear regression model such as machine learning or SVM, etc. It will be interesting to see if our observations and model holds good for other kind of white wines outside the region this data-set came from. 
+
+Would like to explore if we can use our model for fraud detection, crude wine classification and possibly enhance the training of students trying to become wine experts!
 
 # References
 

@@ -53,17 +53,18 @@ In this data exploration we wish to answer following question:
 
 # Load Relevant Libraries
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, packages}
 library(ggplot2)
 library(psych)
 library(memisc)
+library(scatterplot3d)
 ```
 
 # Load the Data 
 
 Before we can start our data exploration, we need to load the data-set for white wines in a data frame.
 
-```{r echo=FALSE}
+```{r echo=FALSE, Load_the_Data}
 wine <- read.csv("./wineQualityWhites.csv")
 str(wine)
 ```
@@ -85,7 +86,7 @@ Both `summary` and `describe` commands give us interesting insights about our at
 
 Let us create boxplot for our attributes (leaving **X** out as it is a serial id) to see visually how they are distributed.
 
-```{r echo=FALSE}
+```{r echo=FALSE, Univariate_Plots}
 par(mfrow=c(3,4)) # Put 4 plots in a row
 for (i in 2:length(wine)) { # We skip first one as "X" is just a serial id
      boxplot(wine[i], main=names(wine[i])) }
@@ -93,7 +94,7 @@ for (i in 2:length(wine)) { # We skip first one as "X" is just a serial id
 
 Boxplot is confirming what we observed in `summary` that mean and median are close for our attributes here. We can see that other than **alcohol** most other attributes have outliers. We also see that most of the **quality** values lie between 4 to 7.
 
-Let us continue our exploartion of seeing how our attributes are distributed by looking at their histograms. 
+Let us continue our exploration of seeing how our attributes are distributed by looking at their histograms. 
 
 ```{r echo=FALSE}
 par(mfrow=c(3,4)) # Put 4 plots in a row
@@ -101,7 +102,7 @@ for (i in 2:length(wine)) { # We skip first one as "X" is just a serial id
      hist(wine[,i], xlab=names(wine[i]), main=NULL, labels=T) }
 ```
 
-We can see from histograms that almost all attributes other than **residual.sugar** and **alcohol** seem to have normal distribution. Both **residual.sugar** and **alcohol** are left skewed (long tail on right) and can be converted to normal distribution with some transformations. There is further confirmation of our earlier obseravtion that values are distributed evenly across the total range and **quality** has discrete integer values.
+We can see from histograms that almost all attributes other than **residual.sugar** and **alcohol** seem to have normal distribution. Both **residual.sugar** and **alcohol** are left skewed (long tail on right) and can be converted to normal distribution with some transformations. There is further confirmation of our earlier observation that values are distributed evenly across the total range and **quality** has discrete integer values.
 
 ## Wine quality    
 
@@ -278,7 +279,7 @@ Let us start zooming into potential variables that may influence quality of whit
 Before we zoom into the set of attributes which impact the **quality** most, let us create pairwise plot for each of the attributes to see in one glance how do not only each of these attributes are distributed but get top level of idea of how they may be related to each other.  
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, Bivariate_Plots}
 # Part of psych package
 pairs.panels(wine)
 ```
@@ -368,7 +369,7 @@ ggplot(data=wine, aes(y=volatile.acidity, x=quality)) + geom_jitter(alpha=0.25) 
 
 We can see a decent linear regression line with decent decreasing slope indicating **good linear correlation** between **volatile.acidity** and **quality**. Therefore volatile.acidity has negative influence on quality of wines. Higher quality wine tend to have lower mean volatile.acidity content threshold below 0.3. 
 
-This finding that low amount of volatile acidity is good for wine is not surprising as it ha connection with aroma of wine. Volatile acidity is an unstable acid formed by dissolving carbon dioxide in water. Generally seen as a fault in wine since it is quite disagreeable when excessive, although a tiny amount can enhance aromas in wine. Therefore good wine is likely to contain a small amount of acetic acid where as low quality wine may contain larger amount.
+This finding that low amount of volatile acidity is good for wine is not surprising as it has connection with aroma of wine. Volatile acidity is an unstable acid formed by dissolving carbon dioxide in water. Generally seen as a fault in wine since it is quite disagreeable when excessive, although a tiny amount can enhance aromas in wine. Therefore good wine is likely to contain a small amount of acetic acid where as low quality wine may contain larger amount.
 
 ### pH  
 
@@ -445,7 +446,7 @@ Let us classify our wines as following:
 3. **Good**: Quality score 7 and above
 
 **Add another variable quality.cut to repersent wine classification**
-```{r echo=FALSE}
+```{r echo=FALSE, Multivariate_Plots}
 wine$quality.cut <- cut(wine$quality, breaks=c(0,4,6,10),
                         labels=c("Bad Wine: (0,4]", "Average Wine: (4, 6]",
                                  "Good Wine: (6, 10]"))
@@ -463,6 +464,17 @@ ggplot(wine, aes(y=volatile.acidity, x=alcohol, color=quality.cut,
 
 We can see that majority of good wines are in lower right quadrant of the graph, where alcohol content is higher and volatile.acidity is lower. We can further observe that a large cluster of good wine in lower right has alcohol content greater than 11 and volatile.acidity less than 0.45.
 
+Another way to visualize this is using a scatter 3d plot.
+```{r echo=FALSE}
+# Needs scatterplot3d package
+# Colors get darker from front (low quality) to back (higher quality)
+#
+scatterplot3d(wine$alcohol, wine$quality.cut, wine$volatile.acidity, main="3D Scatterplot", highlight.3d=T, type="h", pch=16, angle=60)
+```
+
+We see that most of good wines (seen as black dots) are clustered in right lower back of 3d cube indicating that good wines tend to have higher alcohol and moderate to low volatile acid.
+
+Continuing our visual exploration of pH, alcohol influence on quality.
 ```{r echo=FALSE}
 ggplot(wine, aes(y=pH, x=alcohol, color=quality.cut, size=quality)) +
   geom_jitter(alpha=0.5)
@@ -470,7 +482,7 @@ ggplot(wine, aes(y=pH, x=alcohol, color=quality.cut, size=quality)) +
 
 We can see that majority of good wines are in right half of the graph, where alcohol content is higher and volatile.acidity is in middle range. We can further observe that a large cluster of good wine in right half has alcohol content greater than 11 and pH between 2.9 to 3.4.
 
-Now let us try to bring all these together in a single visualization.
+**Now let us try to bring all these together in a single visualization**
 
 ```{r echo=FALSE}
 ggplot(wine, aes(y=volatile.acidity, x=alcohol, size=pH, color=quality.cut)) + 
@@ -583,8 +595,10 @@ ggplot(data=wine, aes(x=alcohol, y=volatile.acidity, size=quality,
     ylim=c(quantile(wine$volatile.acidity,.01), 
            quantile(wine$volatile.acidity,.99)) ) +
   geom_vline(xintercept = 10.75, linetype='dashed', color='brown', alpha=0.5) +
-  geom_hline(yintercept = 0.5, linetype='dashed', color='brown', alpha=0.5) +  
-  ggtitle("Wine Quality: Volatile.Acidity v/s Alcohol")
+  geom_hline(yintercept = 0.5, linetype='dashed', color='brown', alpha=0.5) + 
+  ylab('Volatile Acidity (g / dm^3)') +
+  xlab('Alcohol (% volume)') +
+  ggtitle('Wine Quality: Volatile.Acidity v/s Alcohol')
 ```
 
 **DESCRIPTION: This is a multivariate plot between *volatile.acidity* and *alcohol* whose points are colored and size appropriately with *quality*. This plot provide a good summary visual view of how alcohol and volatile.acidity related to different quality of white wine.**
@@ -605,11 +619,13 @@ We can summarize following from above plot:
 
 Determination of wine quality is quite a complex inter-play of culture, society, reputation of a region or vineyard along with its chemical components which give wine its distinctive taste and aroma. The whole chemical composition of a wine embodies the various stages of the wine producing process, including the grape variety, yeast strain, the containers used for fermentation and storage, and the ecological practice. Human sense of taste  and aroma is not so well understood. This means wine classification is typically left to wine experts.
 
-While rating of a wine (quality) by experts is ultimately a subjective matter, but one could analyze the different chemical components and their inter-play in wine to come up with best guess on wine rating.  We were able to identify few patterns which can help int his regard. While we have been able to find a way to relate quality of white wines with alcohol and volatile acid content, there are certain outliers which indicate that there must be other factors in the play which determine white wine quality. These factors such as smell, taste, soil and climate conditions where grapes were grown, etc, which are not captured in this data-set, may influence the white wine quality.
+While rating of a wine (quality) by experts is ultimately a subjective matter, but it was an interesting exercise to analyze the different chemical components and their inter-play in wine to come up with best guess on wine rating.  We were able to identify few patterns which can help int his regard. While we have been able to find a way to relate quality of white wines with alcohol and volatile acid content, there are certain outliers which indicate that there must be other factors in the play which determine white wine quality. These factors such as smell, taste, soil and climate conditions where grapes were grown, etc, which are not captured in this data-set, may influence the white wine quality.
 
-It will be interesting to see if our observations and model holds good for other kind of white wines outside the region of this data-set came from. There may also be other ways to build a predictive model other than our linear regression model such as polynomial regression, machine learning or SVM, etc.
+Was happy to see that initial guess of alcohol, pH and various acids influencing the quality of wine was not too far off the mark. Interesting to see that while pH, which is a measure of acidity, did not influence quality as much as volatile acid did, may be because beyond certain quantity acetic acid spoiled the taste and aroma of white wine. This kind of relationship is difficult to capture in a linear model. Our linear model with R^2 of 0.24 was a good start but far from a strong model. Several outliers are playing spoilsport in prediction with this model. While with our linear model it is harder to predict exact quality of white wine with high accuracy, we had better success in finding a pattern to classify wine in broader terms such as good, average and poor. Our visual cluster analysis gave strong clues to a good wine having higher alcohol content and moderate to low volatile acid.
 
-This kind of model can also be used to do quick fraud detection, crude wine classification and possibly enhance the training of students trying to become wine experts!
+This model is not the strongest and can be improved further. Would have liked to see much higher R^2. A better pruning of outliers can help in making our model better. Would like to explore other models such as polynomial regression (e.g. cubic equation) along with combination of other features not considered.  A larger data-set along with some other attributes which relate better with taste and body of white wine may help further to build a better predictive model. Would love to explore more ways to build a predictive model other than our linear regression model such as machine learning or SVM, etc. It will be interesting to see if our observations and model holds good for other kind of white wines outside the region this data-set came from. 
+
+Would like to explore if we can use our model for fraud detection, crude wine classification and possibly enhance the training of students trying to become wine experts!
 
 # References
 
