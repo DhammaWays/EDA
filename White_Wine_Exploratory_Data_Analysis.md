@@ -659,7 +659,7 @@ Would like to explore if we can use our model for fraud detection, crude wine cl
 
 # References
 
-Besides the Udacity course material in "Data Analysis with R", here is a list of some of the materials explored while working on this project.
+Besides the Udacity course material in "Data Analysis with R", here is a list of some of the material explored while working on this project.
 
 1. http://www.vinhoverde.pt/en/promotional-materials
 2. http://www.cookbook-r.com/Graphs/index.html
