@@ -4,7 +4,7 @@ author: "Lekhraj Sharma"
 date: "Sept 2015"
 output:
   html_document:
-    keep_md: yes
+    keep_md: no
     theme: readable
     toc: yes
     number_sections: true
@@ -99,7 +99,7 @@ Let us continue our exploration of seeing how our attributes are distributed by 
 ```{r echo=FALSE}
 par(mfrow=c(3,4)) # Put 4 plots in a row
 for (i in 2:length(wine)) { # We skip first one as "X" is just a serial id
-     hist(wine[,i], xlab=names(wine[i]), main=NULL, labels=T) }
+     hist(wine[,i], xlab=names(wine[i]), main=NULL) }
 ```
 
 We can see from histograms that almost all attributes other than **residual.sugar** and **alcohol** seem to have normal distribution. Both **residual.sugar** and **alcohol** are left skewed (long tail on right) and can be converted to normal distribution with some transformations. There is further confirmation of our earlier observation that values are distributed evenly across the total range and **quality** has discrete integer values.
@@ -281,12 +281,12 @@ Before we zoom into the set of attributes which impact the **quality** most, let
 
 ```{r echo=FALSE, Bivariate_Plots}
 # Part of psych package
-pairs.panels(wine)
+pairs.panels(wine[2:13], show.points=F, rug=F, density=F, gap=0, ellipses=F, cor=F)
 ```
 
 Our pairwise plot via `pairs.panel` gives us visual birds eyeview into how each variable is distributed along with how they relate to each other. We can see that there are some strong correlation among other attributes such as **0.84** between **density** and **residual.sugar**, which can be seen in pairwise graph as well in terms of almost 45 degree line between these two attributes. Since here we are focusing on **quality** relation with other attributes, we are **not** going to explore these relationships by themselves other than in context of attributes that relate to **quality**.
 
-Let us look deeper into these correlations.
+Let us look deeper into these correlations further with a heatmap plot.
 
 ```{r echo=FALSE}
 options(width = 100)
@@ -300,6 +300,23 @@ Our correlation plot provides a nice visual view with darker shaded color indica
 When we look further in pairwise correlation plot and matrix, we can see that several of the strongly correlated attributes to **quality** have good correlation among themselves. Since we want to identify independent variables which impact the quality, it will be good to prune these out and select one with strongest correlation with **quality**. We see that **density** (-0.78), **total.sulphur.dioxide** (-0.45), **chlorides** (-0.36) and **residual.sugar** (-0.45) all have good correlation with our strongly correlated attributed **alcohol**. Similarly **pH** and **fixed.acidity** also have strong correlation (-0.43), which makes sense as pH is a measure of acidity on a logarithmic sale.
 
 *Therefore it may suffice to just focus on **alcohol**, **volatile.acidity** and **pH** when modeling a relationship between quality and chemical attributes of given white wine.* We will dive deep into this hypothesis visually and numerically as we progress in this data exploration further.
+
+Let us visualize this.
+
+```{r echo=FALSE}
+# We make indiv plots of correlation of quality with each variable and than
+# arrange them to display in one grid.
+
+plot_list <- list()
+for(i in 2:(length(wine)-1)) {
+  plot_list[[(i-1)]] <- ggplot(data=wine, 
+                               aes_string(y=colnames(wine)[i], x="quality")) + 
+                          geom_smooth(method=lm) + ylab(colnames(wine)[i])
+}
+do.call(grid.arrange, plot_list)
+
+```
+
 
 Let us start exploring these correlations deeper.
 
