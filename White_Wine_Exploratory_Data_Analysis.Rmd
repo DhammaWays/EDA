@@ -58,6 +58,7 @@ library(ggplot2)
 library(psych)
 library(memisc)
 library(scatterplot3d)
+library(gridExtra)
 ```
 
 # Load the Data 
@@ -301,7 +302,7 @@ When we look further in pairwise correlation plot and matrix, we can see that se
 
 *Therefore it may suffice to just focus on **alcohol**, **volatile.acidity** and **pH** when modeling a relationship between quality and chemical attributes of given white wine.* We will dive deep into this hypothesis visually and numerically as we progress in this data exploration further.
 
-Let us visualize this.
+Before we start exploring these correlations deeper, le us visualize how each of attributes relate with quality with a  smooth "lm" to see if there are other features we can dd to above current main feature list.
 
 ```{r echo=FALSE}
 # We make indiv plots of correlation of quality with each variable and than
@@ -317,6 +318,7 @@ do.call(grid.arrange, plot_list)
 
 ```
 
+Besides the already known features such as alcohol, pH, volatile.acidity (and their strongly correlated features), we notice that sulphates seem to stand out as potential candidate for furher analysis.
 
 Let us start exploring these correlations deeper.
 
@@ -425,16 +427,40 @@ We can see a average linear regression line with small increasing slope indicati
 
 **So overall we see that higher quality wines tend to have higher alcohol and pH but lower level of volatile acid.**
 
-### Both Alcohol and Volatile.Acidity together
+### Sulphates  
 
-Since we have stronger correlation of **quality** with **alcohol** and **volatile.acidity**, let us see visually how they impact together.
+Now let us look at our other potentail candidate attribute **sulphates**. 
 
+To understand how sulphates may be related to quality, we can ask few questions about how are sulphates values are distributed across quality levels:
+
+1. What is the average sulphates content for each quality?
+2. Is there a threshold difference in sulphates content across quality levels?
+
+Let us answer first question of average sulphates content for each quality level.
+
+**Average pH for each quality level**
 ```{r echo=FALSE}
-coplot(quality~alcohol|volatile.acidity, panel=panel.smooth, wine)
+tapply(wine$sulphates, wine$quality, mean)
 ``` 
 
-We can see that **alcohol** impacts **quality** in positive way stronger and stronger as **voaltile.acidity** levels increase.
+**Visual boxplot of pH for each quality level**
+```{r echo=FALSE}
+ggplot(data=wine, aes(y=sulphates, x=factor(quality))) + geom_boxplot() 
+``` 
 
+We can see that **sulphates** content seems to increase as **quality** level increases except for high quality wines.
+
+Let us visualize this deeper with a scatter plot.
+
+**Scatter plot of sulphates versus quality**
+```{r echo=FALSE}
+ggplot(data=wine, aes(y=sulphates, x=quality)) + geom_jitter(alpha=0.25) +
+  geom_smooth(method='lm') 
+``` 
+
+We can see a below average linear regression line with very small increasing slope indicating **below average linear correlation** between **sulpahtes** and **quality**. This coupled with the observation that there is not much to differentiat ebetween level of sulphates between higher andlower quality wiens, this featuremay not be worth pursuing as influencing factor in determining quality of wines.
+
+**So overall we see that higher quality wines tend to have higher alcohol and pH but lower level of volatile acid.**
 
 ## Short Questions
 
@@ -475,13 +501,23 @@ As we can see majority of wines are in **average** category.
 Let us visualize the relationship between our chosen attributes and quality as sliced by wine quality classification.
 
 ```{r echo=FALSE}
-ggplot(wine, aes(y=volatile.acidity, x=alcohol, color=quality.cut,
-                 size=quality)) + geom_jitter(alpha=0.5)
+ggplot(wine, aes(y=volatile.acidity, x=alcohol, color=quality)) +
+  geom_jitter(alpha=0.5) + facet_wrap(~quality.cut)
 ```
 
-We can see that majority of good wines are in lower right quadrant of the graph, where alcohol content is higher and volatile.acidity is lower. We can further observe that a large cluster of good wine in lower right has alcohol content greater than 11 and volatile.acidity less than 0.45.
+We can see that majority of good wines (third facet) are in lower right quadrant of the graph, where alcohol content is higher and volatile.acidity is lower. Simliarly we can observe that bad wines (first facet) are in lower left corner and average wines (facet 2) are in lower midlle. This support our hypothesis that good wines tend to have higher alcohol content and moderate to low volatile acid. We can further observe that a large cluster of good wine in lower right has alcohol content greater than 11 and volatile.acidity less than 0.45.
 
-Another way to visualize this is using a scatter 3d plot.
+
+
+Continuing our visual exploration of pH, alcohol influence on quality.
+```{r echo=FALSE}
+ggplot(wine, aes(y=pH, x=alcohol, color=quality)) + geom_jitter(alpha=0.5) +
+  facet_wrap(~quality.cut)
+```
+
+We can see that majority of good wines (third facet) are in middle right side of the graph, where alcohol content is higher and pH is moderate. Simliarly we can observe that bad wines (first facet) are in lower middle left side and average wines (facet 2) are right in midlle of graph. This supports our hypothesis that good wines tend to have higher alcohol content and moderate pH. We can further observe that a large cluster of good wine in right half has alcohol content greater than 11 and pH between 3.0 to 3.45.
+
+**Now let us try to bring all these together in a single scatter 3D visualization**
 ```{r echo=FALSE}
 # Needs scatterplot3d package
 # Colors get darker from front (low quality) to back (higher quality)
@@ -491,22 +527,7 @@ scatterplot3d(wine$alcohol, wine$quality.cut, wine$volatile.acidity, main="3D Sc
 
 We see that most of good wines (seen as black dots) are clustered in right lower back of 3d cube indicating that good wines tend to have higher alcohol and moderate to low volatile acid.
 
-Continuing our visual exploration of pH, alcohol influence on quality.
-```{r echo=FALSE}
-ggplot(wine, aes(y=pH, x=alcohol, color=quality.cut, size=quality)) +
-  geom_jitter(alpha=0.5)
-```
-
-We can see that majority of good wines are in right half of the graph, where alcohol content is higher and volatile.acidity is in middle range. We can further observe that a large cluster of good wine in right half has alcohol content greater than 11 and pH between 2.9 to 3.4.
-
-**Now let us try to bring all these together in a single visualization**
-
-```{r echo=FALSE}
-ggplot(wine, aes(y=volatile.acidity, x=alcohol, size=pH, color=quality.cut)) + 
-  geom_jitter(alpha=0.5)
-```
-
-We can see that majority of good wines are in lower right quadrant of the graph, where alcohol content is higher, volatile.acidity is lower and pH is in middle range (middle size symbols). We can further observe that a large cluster of good wine in lower right has alcohol content greater than 10.75, volatile.acidity less than 0.5 and pH between 3 to 3.5.
+To sumamrize our findings so far, we are heading to a trend that indicates that majority of good wines have higer alcohol content is higher (greater than 10.75), volatile.acidity is lower (less than 0.5) and moderate pH (3 to 3.5).
 
 ## Model
 
@@ -532,7 +553,7 @@ coef(m3)
 
 We can see that our linear equation is:
 
-**quality ~ 2.336 + 0.321 * alcohol - 1.965 * voaltile.acidity + 0.223 * pH**
+**quality ~ 2.336 + 0.321 * alcohol - 1.965 * volatile.acidity + 0.223 * pH**
  
 We also see that we have good degree of confidence in most of above coefficients. Large range of residual (min of -3.4 to max of 3.14) as compared to IQR of around 1 with median close to 0.04 seems to suggest some outliers may be spoiling our model. 
 
@@ -566,7 +587,7 @@ Although not completely surprising **pH* did not influence *quality* as much. Al
 ### OPTIONAL: Did you create any models with your dataset? Discuss the strengths and limitations of your model.
 Yes, created a linear regression model that uses the **alcohol**, **volatile.acidity** and **pH** of white wine to predict its quality. Here is the linear equation the model came up with:
 
-**quality ~ 2.336 + 0.321 * alcohol - 1.965 * voaltile.acidity + 0.223 * pH**
+**quality ~ 2.336 + 0.321 * alcohol - 1.965 * volatile.acidity + 0.223 * pH**
 
 This model is not the strongest and can be improved further. Would like to see **R^2** of **0.24** go up further possibly with a polynomial regression (e.g. cubic equation), combination of other features not considered. Several outliers are playing spoilsport in prediction with this model. A larger data-set along with some other attributes which relate better with taste and body of white wine may help further to build a better predictive model.
 
@@ -601,14 +622,13 @@ We also see that **density** (-0.78), **total.sulphur.dioxide** (-0.45), **chlor
 ## Plot Three
  
 ```{r echo=FALSE, Plot_Three}
-# We are excluding top and bottom 1% observations as outliers here
+# We are excluding top and bottom 0.5% observations as outliers here
 # x and y intercept line values are decided based on our earlier observations
 # during multivariate analysis
 #
-ggplot(data=wine, aes(x=alcohol, y=volatile.acidity, size=quality, 
-                      color=quality.cut)) +
+ggplot(data=wine, aes(x=alcohol, y=volatile.acidity, color=quality.cut)) +
   geom_jitter(alpha=0.5) + coord_cartesian( 
-    xlim=c(quantile(wine$alcohol,.01), quantile(wine$alcohol,.99)),
+    xlim=c(quantile(wine$alcohol,.005), quantile(wine$alcohol,.995)),
     ylim=c(quantile(wine$volatile.acidity,.01), 
            quantile(wine$volatile.acidity,.99)) ) +
   geom_vline(xintercept = 10.75, linetype='dashed', color='brown', alpha=0.5) +
@@ -618,7 +638,7 @@ ggplot(data=wine, aes(x=alcohol, y=volatile.acidity, size=quality,
   ggtitle('Wine Quality: Volatile.Acidity v/s Alcohol')
 ```
 
-**DESCRIPTION: This is a multivariate plot between *volatile.acidity* and *alcohol* whose points are colored and size appropriately with *quality*. This plot provide a good summary visual view of how alcohol and volatile.acidity related to different quality of white wine.**
+**DESCRIPTION: This is a multivariate plot between *volatile.acidity* and *alcohol* whose points are colored appropriately with *quality* buckets. This plot provide a good summary visual view of how alcohol and volatile.acidity related to different quality buckets of white wine.**
 
 We can summarize following from above plot:
 
