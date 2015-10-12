@@ -597,26 +597,38 @@ This model is not the strongest and can be improved further. Would like to see *
 
 We have chosen to select three plots that lead us gradually to our final conclusion on how we can predict the quality of white wine based on given chemical properties. 
 
+
 ## Plot One
 
 ```{r echo=FALSE, Plot_One}
-pairs.panels(wine, scale=T, smooth=T, digits=3, 
-  main="Pairwise bird eyeview plot of all attributes for White Wine dataset")
-
-```
-
-**DESCRIPTION: Our paiwise plot via `pairs.panel` gives us birdeye visual view into how each variable is ditributed along with how they relate to each other. Clearly attribute *X* is just a serial id for each observation. All other attributes except *quality* have a continuous value. We can see that almost all attributes other than *residual.sugar* and *alcohol* seem to have normal distribution. Both *residual.sugar* and *alcohol* are left skewed and can be converted to normal distribution with some transformations.** 
-
-## Plot Two
-
-```{r echo=FALSE, Plot_Two}
 cor.plot(cor(wine[2:13]), numbers=T,
          main="Correlation Matrix Plot for White Wine")
 ```
 
-**DESCRIPTION:  This correlation matrix plot provides are nice visual view with darker shaded color indicated stronger correlation.  We can see that *quality* has strong correlation with *alcohol* (0.44), *density*(-0.31), *chlorides* (-0.21), *volatile.acidity* (-0.19), *toal.sulfur.dioxide* (-0.17) and bit weaker correlation with *fixed.acidity* (-0.11), *residual.sugar* (-0.10), *pH* (0.10).**
+**DESCRIPTION:  This correlation matrix plot provides nice visual view with darker shaded color indicated stronger correlation.  We can see that *quality* has strong correlation with *alcohol* (0.44), *density*(-0.31), *chlorides* (-0.21), *volatile.acidity* (-0.19), *toal.sulfur.dioxide* (-0.17) and bit weaker correlation with *fixed.acidity* (-0.11), *residual.sugar* (-0.10), *pH* (0.10).**
 
-We also see that **density** (-0.78), **total.sulphur.dioxide** (-0.45), **chlorides** (-0.36) and **residual.sugar** (-0.45) all have good correlation with our strongly correlated attributed **alcohol**. Similarly **pH** has strong correlation (-0.43) with **fixed.acidity**. Therefore it may suffice to just focus on **alcohol**, **volatile.acidity** and **pH** as set of attributes which have most independent influence on quality of white wine.
+We also see that **density** (-0.78), **total.sulphur.dioxide** (-0.45), **chlorides** (-0.36) and **residual.sugar** (-0.45) all have good correlation with our strongly correlated attributed **alcohol**. Similarly **pH** has strong correlation (-0.43) with **fixed.acidity**. Therefore it may suffice to just focus on **alcohol**, **volatile.acidity** and to lesser extent **pH** as set of attributes which have most independent influence on quality of white wine.
+
+## Plot Two
+
+```{r echo=FALSE, Plot_Two}
+g1 <- ggplot(data=wine, aes(y=quality, x=alcohol)) + 
+      geom_jitter(alpha=0.25, color='red') + 
+      geom_smooth(method='lm') + 
+      ylab('Quality (0:very bad to 10:very excellent)') +
+      xlab('Alcohol (% volume)')
+g2 <- ggplot(data=wine, aes(x=volatile.acidity, y=quality)) + 
+      geom_jitter(alpha=0.25, color='magenta') + geom_smooth(method='lm') +
+      ylab('Quality (0:very bad to 10:very excellent)') +
+      xlab('Volatile Acidity (g / dm^3)')
+grid.arrange(g1, g2, nrow=1, 
+             main="Impact of Alcohol, Volatile Acidity on White Wine Quality")
+
+```
+
+**DESCRIPTION: We can see a good linear regression lines with increasing slope for alcohol and decreasing slope for volatile acidity indicating strong linear correlation of these features with quality of white wine. Higher quality wine tend to have higher  alcohol content and lower volatile acidity**
+
+That alcohol has strongest correlation with wine seems to make sense as typically wine's perception does relate to alcohol content. Simliarly the finding that low amount of volatile acidity is good for wine is not surprising as it has connection with aroma of wine. Volatile acidity is an unstable acid formed by dissolving carbon dioxide in water. Generally seen as a fault in wine since it is quite disagreeable when excessive, although a tiny amount can enhance aromas in wine. Therefore good wine is likely to contain a small amount of acetic acid where as low quality wine may contain larger amount.
 
 
 ## Plot Three
@@ -638,7 +650,7 @@ ggplot(data=wine, aes(x=alcohol, y=volatile.acidity, color=quality.cut)) +
   ggtitle('Wine Quality: Volatile.Acidity v/s Alcohol')
 ```
 
-**DESCRIPTION: This is a multivariate plot between *volatile.acidity* and *alcohol* whose points are colored appropriately with *quality* buckets. This plot provide a good summary visual view of how alcohol and volatile.acidity related to different quality buckets of white wine.**
+**DESCRIPTION: This is a multivariate plot between *volatile.acidity* and *alcohol* whose points are colored appropriately with *quality* buckets. This plot provides a good summary visual view of how alcohol and volatile.acidity related to different quality buckets of white wine.**
 
 We can summarize following from above plot:
 
