@@ -1,7 +1,7 @@
 ---
 title: "White Wine Exploratory Data Analysis"
 author: "Lekhraj Sharma"
-date: "Sept 2015"
+date: "Oct 2015"
 output:
   html_document:
     keep_md: no
@@ -9,6 +9,7 @@ output:
     toc: yes
     number_sections: true
     fig_caption: true
+    fig_width: 10
 ---
 
 # About
@@ -87,7 +88,7 @@ Both `summary` and `describe` commands give us interesting insights about our at
 
 Let us create boxplot for our attributes (leaving **X** out as it is a serial id) to see visually how they are distributed.
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, fig.width=10, fig.height=8, Univariate_Plots}
 par(mfrow=c(3,4)) # Put 4 plots in a row
 for (i in 2:length(wine)) { # We skip first one as "X" is just a serial id
      boxplot(wine[i], main=names(wine[i])) }
@@ -97,7 +98,7 @@ Boxplot is confirming what we observed in `summary` that mean and median are clo
 
 Let us continue our exploration of seeing how our attributes are distributed by looking at their histograms. 
 
-```{r echo=FALSE}
+```{r fig.width=10, fig.height=8, echo=FALSE}
 par(mfrow=c(3,4)) # Put 4 plots in a row
 for (i in 2:length(wine)) { # We skip first one as "X" is just a serial id
      hist(wine[,i], xlab=names(wine[i]), main=NULL) }
@@ -280,31 +281,30 @@ Let us start zooming into potential variables that may influence quality of whit
 Before we zoom into the set of attributes which impact the **quality** most, let us create pairwise plot for each of the attributes to see in one glance how do not only each of these attributes are distributed but get top level of idea of how they may be related to each other.  
 
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, fig.width=10, fig.height=8, Bivariate_Plots}
 # Part of psych package
 pairs.panels(wine[2:13], show.points=F, rug=F, density=F, gap=0, ellipses=F, cor=F)
 ```
 
 Our pairwise plot via `pairs.panel` gives us visual birds eyeview into how each variable is distributed along with how they relate to each other. We can see that there are some strong correlation among other attributes such as **0.84** between **density** and **residual.sugar**, which can be seen in pairwise graph as well in terms of almost 45 degree line between these two attributes. Since here we are focusing on **quality** relation with other attributes, we are **not** going to explore these relationships by themselves other than in context of attributes that relate to **quality**.
 
-Let us look deeper into these correlations further with a heatmap plot.
+Let us look deeper into these correlations further with lower correlation matrix:
 
 ```{r echo=FALSE}
 options(width = 100)
 # These are part of psych library
 lowerCor(wine[2:13])
-cor.plot(cor(wine[2:13]))
 ```
 
-Our correlation plot provides a nice visual view with darker shaded color indicating stronger correlation. With this visual cue and looking in pairwise correlation matrix, we can see that **quality** has strong correlation with **alcohol** (0.44), **density**(-0.31), **chlorides** (-0.21), **volatile.acidity** (-0.19), **toal.sulfur.dioxide** (-0.17) and bit weaker correlation with **fixed.acidity** (-0.11), **residual.sugar** (-0.10), **pH** (0.10).
+In pairwise lower correlation matrix, we can see that **quality** has strong correlation with **alcohol** (0.44), **density**(-0.31), **chlorides** (-0.21), **volatile.acidity** (-0.19), **total.sulfur.dioxide** (-0.17) and bit weaker correlation with **fixed.acidity** (-0.11), **residual.sugar** (-0.10), **pH** (0.10).
 
-When we look further in pairwise correlation plot and matrix, we can see that several of the strongly correlated attributes to **quality** have good correlation among themselves. Since we want to identify independent variables which impact the quality, it will be good to prune these out and select one with strongest correlation with **quality**. We see that **density** (-0.78), **total.sulphur.dioxide** (-0.45), **chlorides** (-0.36) and **residual.sugar** (-0.45) all have good correlation with our strongly correlated attributed **alcohol**. Similarly **pH** and **fixed.acidity** also have strong correlation (-0.43), which makes sense as pH is a measure of acidity on a logarithmic sale.
+When we look further in pairwise lower correlation matrix, we can see that several of the strongly correlated attributes to **quality** have good correlation among themselves. Since we want to identify independent variables which impact the quality, it will be good to prune these out and select one with strongest correlation with **quality**. We see that **density** (-0.78), **total.sulphur.dioxide** (-0.45), **chlorides** (-0.36) and **residual.sugar** (-0.45) all have good correlation with our strongly correlated attributed **alcohol**. Similarly **pH** and **fixed.acidity** also have strong correlation (-0.43), which makes sense as pH is a measure of acidity on a logarithmic sale.
 
 *Therefore it may suffice to just focus on **alcohol**, **volatile.acidity** and **pH** when modeling a relationship between quality and chemical attributes of given white wine.* We will dive deep into this hypothesis visually and numerically as we progress in this data exploration further.
 
-Before we start exploring these correlations deeper, le us visualize how each of attributes relate with quality with a  smooth "lm" to see if there are other features we can dd to above current main feature list.
+Before we start exploring these correlations deeper, let us visualize how each of attributes relate with quality with a  smooth "lm" to see if there are other features we can add to above current main feature list.
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=8}
 # We make indiv plots of correlation of quality with each variable and than
 # arrange them to display in one grid.
 
@@ -318,7 +318,7 @@ do.call(grid.arrange, plot_list)
 
 ```
 
-Besides the already known features such as alcohol, pH, volatile.acidity (and their strongly correlated features), we notice that sulphates seem to stand out as potential candidate for furher analysis.
+Besides the already known features such as alcohol, pH, volatile.acidity (and their strongly correlated features), we notice that sulphates seem to stand out as potential candidate for fuhrer analysis.
 
 Let us start exploring these correlations deeper.
 
@@ -382,7 +382,7 @@ Let us visualize this deeper with a scatter plot.
 
 **Scatter plot of volatile.acidity versus quality**
 ```{r echo=FALSE}
-ggplot(data=wine, aes(y=volatile.acidity, x=quality)) + geom_jitter(alpha=0.25) +
+ggplot(data=wine, aes(y=volatile.acidity, x=quality)) + geom_jitter(alpha=0.25)+
   geom_smooth(method='lm') 
 ``` 
 
@@ -429,7 +429,7 @@ We can see a average linear regression line with small increasing slope indicati
 
 ### Sulphates  
 
-Now let us look at our other potentail candidate attribute **sulphates**. 
+Now let us look at our other potential candidate attribute **sulphates**. 
 
 To understand how sulphates may be related to quality, we can ask few questions about how are sulphates values are distributed across quality levels:
 
@@ -458,7 +458,7 @@ ggplot(data=wine, aes(y=sulphates, x=quality)) + geom_jitter(alpha=0.25) +
   geom_smooth(method='lm') 
 ``` 
 
-We can see a below average linear regression line with very small increasing slope indicating **below average linear correlation** between **sulpahtes** and **quality**. This coupled with the observation that there is not much to differentiat ebetween level of sulphates between higher andlower quality wiens, this featuremay not be worth pursuing as influencing factor in determining quality of wines.
+We can see a below average linear regression line with very small increasing slope indicating **below average linear correlation** between **sulpahtes** and **quality**. This coupled with the observation that there is not much to differentiate between level of sulphates between higher and lower quality wines, this feature may not be worth pursuing as influencing factor in determining quality of wines.
 
 **So overall we see that higher quality wines tend to have higher alcohol and pH but lower level of volatile acid.**
 
@@ -505,7 +505,7 @@ ggplot(wine, aes(y=volatile.acidity, x=alcohol, color=quality)) +
   geom_jitter(alpha=0.5) + facet_wrap(~quality.cut)
 ```
 
-We can see that majority of good wines (third facet) are in lower right quadrant of the graph, where alcohol content is higher and volatile.acidity is lower. Simliarly we can observe that bad wines (first facet) are in lower left corner and average wines (facet 2) are in lower midlle. This support our hypothesis that good wines tend to have higher alcohol content and moderate to low volatile acid. We can further observe that a large cluster of good wine in lower right has alcohol content greater than 11 and volatile.acidity less than 0.45.
+We can see that majority of good wines (third facet) are in lower right quadrant of the graph, where alcohol content is higher and volatile.acidity is lower. Similarly we can observe that bad wines (first facet) are in lower left corner and average wines (facet 2) are in lower middle. This support our hypothesis that good wines tend to have higher alcohol content and moderate to low volatile acid. We can further observe that a large cluster of good wine in lower right has alcohol content greater than 11 and volatile.acidity less than 0.45.
 
 
 
@@ -515,7 +515,7 @@ ggplot(wine, aes(y=pH, x=alcohol, color=quality)) + geom_jitter(alpha=0.5) +
   facet_wrap(~quality.cut)
 ```
 
-We can see that majority of good wines (third facet) are in middle right side of the graph, where alcohol content is higher and pH is moderate. Simliarly we can observe that bad wines (first facet) are in lower middle left side and average wines (facet 2) are right in midlle of graph. This supports our hypothesis that good wines tend to have higher alcohol content and moderate pH. We can further observe that a large cluster of good wine in right half has alcohol content greater than 11 and pH between 3.0 to 3.45.
+We can see that majority of good wines (third facet) are in middle right side of the graph, where alcohol content is higher and pH is moderate. Similarly we can observe that bad wines (first facet) are in lower middle left side and average wines (facet 2) are right in middle of graph. This supports our hypothesis that good wines tend to have higher alcohol content and moderate pH. We can further observe that a large cluster of good wine in right half has alcohol content greater than 11 and pH between 3.0 to 3.45.
 
 **Now let us try to bring all these together in a single scatter 3D visualization**
 ```{r echo=FALSE}
@@ -527,7 +527,7 @@ scatterplot3d(wine$alcohol, wine$quality.cut, wine$volatile.acidity, main="3D Sc
 
 We see that most of good wines (seen as black dots) are clustered in right lower back of 3d cube indicating that good wines tend to have higher alcohol and moderate to low volatile acid.
 
-To sumamrize our findings so far, we are heading to a trend that indicates that majority of good wines have higer alcohol content is higher (greater than 10.75), volatile.acidity is lower (less than 0.5) and moderate pH (3 to 3.5).
+To summarize our findings so far, we are heading to a trend that indicates that majority of good wines have higher alcohol content is higher (greater than 10.75), volatile.acidity is lower (less than 0.5) and moderate pH (3 to 3.5).
 
 ## Model
 
@@ -600,7 +600,7 @@ We have chosen to select three plots that lead us gradually to our final conclus
 
 ## Plot One
 
-```{r echo=FALSE, Plot_One}
+```{r echo=FALSE, fig.width=10, fig.height=8, Plot_One}
 cor.plot(cor(wine[2:13]), numbers=T,
          main="Correlation Matrix Plot for White Wine")
 ```
@@ -622,13 +622,13 @@ g2 <- ggplot(data=wine, aes(x=volatile.acidity, y=quality)) +
       ylab('Quality (0:very bad to 10:very excellent)') +
       xlab('Volatile Acidity (g / dm^3)')
 grid.arrange(g1, g2, nrow=1, 
-             main="Impact of Alcohol, Volatile Acidity on White Wine Quality")
+             top="Impact of Alcohol, Volatile Acidity on White Wine Quality")
 
 ```
 
 **DESCRIPTION: We can see a good linear regression lines with increasing slope for alcohol and decreasing slope for volatile acidity indicating strong linear correlation of these features with quality of white wine. Higher quality wine tend to have higher  alcohol content and lower volatile acidity**
 
-That alcohol has strongest correlation with wine seems to make sense as typically wine's perception does relate to alcohol content. Simliarly the finding that low amount of volatile acidity is good for wine is not surprising as it has connection with aroma of wine. Volatile acidity is an unstable acid formed by dissolving carbon dioxide in water. Generally seen as a fault in wine since it is quite disagreeable when excessive, although a tiny amount can enhance aromas in wine. Therefore good wine is likely to contain a small amount of acetic acid where as low quality wine may contain larger amount.
+That alcohol has strongest correlation with wine seems to make sense as typically wine's perception does relate to alcohol content. Similarly the finding that low amount of volatile acidity is good for wine is not surprising as it has connection with aroma of wine. Volatile acidity is an unstable acid formed by dissolving carbon dioxide in water. Generally seen as a fault in wine since it is quite disagreeable when excessive, although a tiny amount can enhance aromas in wine. Therefore good wine is likely to contain a small amount of acetic acid where as low quality wine may contain larger amount.
 
 
 ## Plot Three
