@@ -283,7 +283,8 @@ Before we zoom into the set of attributes which impact the **quality** most, let
 
 ```{r echo=FALSE, fig.width=10, fig.height=8, Bivariate_Plots}
 # Part of psych package
-pairs.panels(wine[2:13], show.points=F, rug=F, density=F, gap=0, ellipses=F, cor=F)
+pairs.panels(wine[2:13], show.points=F, rug=F, density=F, gap=0, ellipses=F,
+             cor=F)
 ```
 
 Our pairwise plot via `pairs.panel` gives us visual birds eyeview into how each variable is distributed along with how they relate to each other. We can see that there are some strong correlation among other attributes such as **0.84** between **density** and **residual.sugar**, which can be seen in pairwise graph as well in terms of almost 45 degree line between these two attributes. Since here we are focusing on **quality** relation with other attributes, we are **not** going to explore these relationships by themselves other than in context of attributes that relate to **quality**.
